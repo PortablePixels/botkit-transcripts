@@ -1,0 +1,46 @@
+<script src="/plugins/transcripts/controller.js"></script>
+<div ng-controller="transcripts" class="wrapper">
+  <h1>Transcripts</h1>
+
+  <div class="toolbar">
+    <ul>
+      <li>
+        <button ng-disabled="!ui.bulkOps">Export</button>
+      </li>
+      <li>
+        <button ng-disabled="!ui.bulkOps">Delete</button>
+      </li>
+    </ul>
+  </div>
+
+  <table class="cells" cellspacing="0" border="0">
+    <tr class="header">
+      <th class="select" ng-click="selectAll(ui.transcripts)">
+          <input type="checkbox" ng-checked="ui.selectAll" />
+      </th>
+      <th class="cell">
+        User
+      </th>
+      <th>
+          Last Message
+      </th>
+      <th class="cell right">
+        Last Interaction
+      </th>
+    </tr>
+    <tr ng-repeat="transcript in ui.transcripts" class="ng-class:{selected: transcript.selected};">
+      <td class="cell select" ng-click="select(transcript, ui.transcripts)" >
+          <input type="checkbox" ng-checked="transcript.selected" />
+      </td>
+      <td class="cell">
+        <a ng-href="/admin/transcripts/{% transcript._id %}">{% transcript._id %}</a>
+      </td>
+      <td>
+          <span ng-if="transcript.lastMessage.fromBot">💬</span> {% transcript.lastMessage.text %}
+      </td>
+      <td class="cell right">
+        {% transcript.lastChat | date : "short" %}
+      </td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,35 @@
+.transcript {
+
+
+}
+
+.transcript .line {
+  margin-bottom: 0.5rem;
+}
+
+
+.transcript .line:after {
+  content: ' ';
+  display: block;
+  clear: both;
+}
+
+.transcript .message {
+
+  padding: 0.5rem;
+  border-radius: 20px;
+  max-width: 60%;
+
+}
+
+.transcript .fromBot {
+
+  float: left;
+  background: #CCC;
+}
+
+.transcript .fromUser {
+  float: right;
+  background: blue;
+  color: #FFF;
+}

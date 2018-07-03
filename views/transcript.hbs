@@ -22,7 +22,7 @@
         </div>
         <div ng-if="!line.fromBot" class="message fromUser">
           <div class="text">
-            {% line.message.text %}
+            {% line.message.displayed_text || line.message.text %}
           </div>
         </div>
     </div>

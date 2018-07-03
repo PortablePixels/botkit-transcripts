@@ -1,6 +1,4 @@
 
-var path = require('path');
-var express = require('express');
 
 var transcript_schema = {
     user: {
@@ -30,16 +28,14 @@ module.exports = function(botkit) {
                 url: '/admin/transcripts',
                 method: 'get',
                 handler: function(req, res) {
-                    var relativePath = path.relative(botkit.LIB_PATH + '/../views', __dirname + '/views');
-                    res.render(relativePath + '/main');
+                    res.render(botkit.localView(__dirname+'/views/main'));
                 }
             },
             {
                     url: '/admin/transcripts/:uid',
                     method: 'get',
                     handler: function(req, res) {
-                        var relativePath = path.relative(botkit.LIB_PATH + '/../views', __dirname + '/views');
-                        res.render(relativePath + '/transcript');
+                      res.render(botkit.localView(__dirname+'/views/transcript'));
                     }
             },
             {
@@ -86,7 +82,7 @@ module.exports = function(botkit) {
                 method: 'get',
                 handler: function(req, res) {
                     var offset = parseInt(req.query.offset) || 0;
-                    var limit = parseInt(req.query.limit) || 200;
+                    var limit = parseInt(req.query.limit) || null;
 
                     var query = botkit.db.transcripts.find({
                         user: req.params.uid,
@@ -95,7 +91,10 @@ module.exports = function(botkit) {
                     });
 
                     query.skip(offset);
-                    query.limit(limit);
+
+                    if (limit) {
+                      query.limit(limit);
+                    }
 
                     query.exec(function(err, results) {
                         res.json(results);
@@ -106,7 +105,7 @@ module.exports = function(botkit) {
         menu: [{
             title: 'Transcripts',
             url: '/admin/transcripts',
-            icon: '💬',
+            icon: '<img src="/icons/transcripts.png" />',
         }],
         middleware: {
             understand: [
@@ -141,7 +140,7 @@ module.exports = function(botkit) {
         },
         init: function() {
             botkit.db.addModel(transcript_schema, 'transcript', 'transcripts');
-            botkit.webserver.use("/plugins/transcripts", express.static(__dirname + "/public"));
+            botkit.publicFolder("/plugins/transcripts", __dirname + "/public");
         }
     }
 

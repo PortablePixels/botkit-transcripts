@@ -1,4 +1,4 @@
-
+var clone = require('clone');
 
 var transcript_schema = {
     user: {
@@ -129,7 +129,9 @@ module.exports = function(botkit) {
                     var transcript = new botkit.db.transcripts();
 
                     transcript.user = message.to;
-                    transcript.message = message;
+                    transcript.message = clone(message);
+                    // delete invalid field names
+                    delete(transcript.message['$mid']);
                     transcript.fromBot = true;
                     transcript.platform = bot.type;
                     transcript.save();

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "clone": "^2.1.2",
     "path": "^0.12.7"
   }
 }

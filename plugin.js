@@ -115,6 +115,8 @@ module.exports = function(botkit) {
                         var transcript = new botkit.db.transcripts();
                         transcript.user = message.user;
                         transcript.message = message;
+                        delete(transcript.message['$mid']);
+
                         transcript.fromBot = false;
                         transcript.platform = bot.type;
                         transcript.save();
